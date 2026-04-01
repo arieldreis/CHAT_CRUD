@@ -1,5 +1,5 @@
 import express from 'express';
-import mysql2 from 'mysql2/promise';
+import { db_connect as db } from './db.js';
 
 const app = express();
 const PORT = 3030;
@@ -8,27 +8,25 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // Criar um novo elemento
-app.post('api/create_account', async(req, res) => {
-    // Conectando com o banco de dados.
-    const db_connect = await mysql2.createPool({
-        host: "localhost",
-        user: "root",
-        password: "",
-        database: "chat_dinamico"
-    });
+app.post('/api/create_account', async(req, res) => {
     try{
         const nome_user = req.body.nome_user;
         const email = req.body.email;
         const senha = req.body.senha;
 
         // comando para inserir os dados
-        const post_data = db_connect.query(
+        const [post_data] = await db.query(
             'INSERT INTO account_client(nome_user, email, senha) VALUES(?, ?, ?)',
             [nome_user, email, senha]
         );
+
+        res.status(210).send({
+            id: result.insertId
+        })
     } catch(error) {
+        console.log("Erro no banco de dados: " + error)
         res.status(500).json({
-            error: "Erro no banco de dados."
+            error: "Erro interno no servidor."
         });
     }
 });
@@ -40,20 +38,13 @@ app.put('api/update_data', (req, res) => {
 
 // Pegar os recursos do servidor
 app.get("/api/account_data", async (req, res) => {
-    const db_connect = await mysql2.createPool({
-        host: "localhost",
-        user: "root",
-        password: "",
-        database: "chat_dinamico"
-    });
     try{
-        const [getData] = db_connect.query(
+        const [datas] = await db.query(
         'SELECT * FROM account_client'
-        )
-        
-        return res.status(200).json({getData});
-
+        );
+        return res.status(200).json({datas});
     } catch(error) {
+        console.log("Erro no banco de dados: " + error)
         res.status(500).json({
             error: "Erro ao buscar dados do banco."
         });
