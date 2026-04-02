@@ -8,36 +8,40 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // Criar um novo elemento
-app.post('/api/create_account', async(req, res) => {
+app.post('/api/createAccountUser', async(req, res) => {
     try{
         const nome_user = req.body.nome_user;
         const email = req.body.email;
         const senha = req.body.senha;
 
         // comando para inserir os dados
-        const [post_data] = await db.query(
+        const [result] = await db.query(
             'INSERT INTO account_client(nome_user, email, senha) VALUES(?, ?, ?)',
             [nome_user, email, senha]
         );
 
-        res.status(210).send({
-            id: result.insertId
-        })
+        return res.status(201).json({ 
+            status: "Sucesso!" 
+        });
     } catch(error) {
-        console.log("Erro no banco de dados: " + error)
+        console.log("Erro: " + error);
         res.status(500).json({
-            error: "Erro interno no servidor."
+            error: error.message
         });
     }
 });
 
 // Atualizar um elemento
-app.put('api/update_data', (req, res) => {
-
+app.put('api/updateuser', (req, res) => {
+    res.send("Olá, Mundo!");
 });
 
+app.delete('api/deleteuser', (req, res) => {
+    res.send("Olá, Mundo!");
+})
+
 // Pegar os recursos do servidor
-app.get("/api/account_data", async (req, res) => {
+app.get("/api/accountuser", async (req, res) => {
     try{
         const [datas] = await db.query(
         'SELECT * FROM account_client'
