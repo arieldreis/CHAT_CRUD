@@ -9,12 +9,17 @@ app.use(express.urlencoded({extended: true}));
 
 // Criar um novo elemento
 app.post('/createAccountUser', async(req, res) => {
+
+    const nome_user = req.body.nome_user;
+    const email = req.body.email;
+    const senha = req.body.senha;
+
+    if (!nome_user || !email || !senha) {
+        return res.status(400).send({
+            mensagem: "Dados inválidos fornecidos."
+        });
+    }
     try{
-        const nome_user = req.body.nome_user;
-        const email = req.body.email;
-        const senha = req.body.senha;
-
-
         // comando para inserir os dados
         const [result] = await db.query(
             'INSERT INTO account_client(nome_user, email, senha) VALUES(?, ?, ?)',
@@ -22,7 +27,7 @@ app.post('/createAccountUser', async(req, res) => {
         );
 
         return res.status(201).json({ 
-            status: "Sucesso!" 
+            mensagem: "Sucesso!" 
         });
     } catch(error) {
         console.log("Erro: " + error);
@@ -34,40 +39,42 @@ app.post('/createAccountUser', async(req, res) => {
 
 // Atualizar um elemento
 app.put('/updateuser/:id', async(req, res) => {
+    const id  = req.params.id;
+    if(!id){
+        return res.status(404).send({
+            mensagem: "Usuário não encontrado."
+        });
+    } 
     try{
-        const id  = req.params.id;
         const nome_user = req.body.nome_user;
         const email = req.body.email;
         const senha = req.body.senha; 
-
-        console.log(id);
-
         const [updataData] = await db.query(
             "UPDATE account_client SET nome_user = ?, email = ?, senha = ? WHERE id = ?",
             [nome_user, email, senha, Number(id)]
         );
-        // Bloco de condição do usuario
-        if(!id){
-            return res.status(404).send({
-                status: "Usuário não encontrado."
-            });
-        } else {
-            return res.status(200).send({
-                status: "Usuário excluido com sucesso."
-            });
-        }
+
+        return res.status(200).send({
+            mensagem: "Alteração feita com sucesso."
+        });
 
     } catch(error) {
         console.log("Erro: " + error)
         res.status(500).send({
             error: "Erro ao fazer a alteração do recurso."
-        })
+        });
     }
 });
 
+// Deleta um elemento
 app.delete('/deleteuser/:id', async(req, res) => {
+    const id  = req.params.id;
+    if(!id){
+        res.status(404).send({
+            mensagem: "Usuário não encontrado."
+        });
+    }
     try{
-        const id  = req.params.id;
         const [updataData] = await db.query(
             "DELETE FROM account_client where id = ?",
             [Number(id)]
@@ -76,11 +83,11 @@ app.delete('/deleteuser/:id', async(req, res) => {
         // Bloco de condição do usuario
         if(updataData.affectedRows > 0){
             return res.status(200).send({
-                status: "Usuário excluido com sucesso."
+                mensagem: "Usuário excluido com sucesso."
             });
         } else {
             return res.status(404).send({
-                status: "Usuário não encontrado."
+                mensagem: "Usuário não encontrado."
             });
         }
 
@@ -89,7 +96,7 @@ app.delete('/deleteuser/:id', async(req, res) => {
         res.status(500).send({
             error: "Erro ao deletar o recurso do banco de dados."
         });
-    }
+    };
 });
 
 // Pegar os recursos do servidor
@@ -98,13 +105,13 @@ app.get("/accountuser", async (req, res) => {
         const [datas] = await db.query(
         'SELECT * FROM account_client'
         );
-        return res.status(200).json({datas});
+        return res.status(200).json({datas}); // Transforma em uma api formato json().
     } catch(error) {
         console.log("Erro no banco de dados: " + error)
         res.status(500).json({
             error: "Erro ao buscar dados do banco."
         });
-    }
+    };
 });
 
 app.use((req, res) => {
