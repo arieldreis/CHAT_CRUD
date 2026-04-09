@@ -1,3 +1,8 @@
+// Proteção de rota — redireciona se não estiver logado
+const loggedUser = sessionStorage.getItem("loggedUser");
+if (!loggedUser) {
+  window.location.href = "login.html";
+}
 const form = document.querySelector('.chat-input-area');
 const input = document.querySelector('.chat-input-area input');
 const chatWindow = document.querySelector('.chat-window');
