@@ -1,4 +1,3 @@
-//
 const form = document.querySelector('.chat-input-area');
 const input = document.querySelector('.chat-input-area input');
 const chat_window = document.querySelector('.chat-window');
