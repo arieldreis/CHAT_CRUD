@@ -120,11 +120,24 @@ app.get("/accountuser", async (req, res) => {
     };
 });
 
-// Direcionamento para a página de dados salvos.
+// Rota para ás paginas htmls
 app.get('/DadosColetados', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'src', 'htmls', 'dados_salvos.html'));
 });
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'src', 'htmls', 'login.html'));
+});
+app.get('/cadastro', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'src', 'htmls', 'cadastro.html'));
+});
+app.get('/chat', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'src', 'htmls', 'chat.html'));
+});
+app.get('/alterarDados', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'src', 'htmls', 'alterar_cadastro.html'))
+});
 
+// Caso rota solicitada não seja encontrada.
 app.use((req, res) => {
     console.log(`Mensagens: ${new Date().toISOString}, ${req.url}, ${req.method}`);
     res.status(404).send({
