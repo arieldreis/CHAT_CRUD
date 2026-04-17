@@ -134,7 +134,7 @@ app.get('/chat', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'src', 'htmls', 'chat.html'));
 });
 app.get('/alterarDados', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'src', 'htmls', 'alterar_cadastro.html'))
+    res.sendFile(path.join(__dirname, '..', 'src', 'htmls', 'alterar_cadastro.html'));
 });
 
 // Caso rota solicitada não seja encontrada.
