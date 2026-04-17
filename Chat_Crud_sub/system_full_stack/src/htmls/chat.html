@@ -9,16 +9,20 @@
 </head>
 <body>
   <header class="navbar">
-    <div class="user-greeting">Olá, <strong>Usuário!</strong></div>
-    <nav>
-      <ul class="nav-links">
-        <li><a href="#">Início</a></li>
-        <li><a href="#">Sobre</a></li>
-        <li><a href="#">Configurações</a></li>
-      </ul>
-    </nav>
-  </header>
-
+  <div class="user-greeting">Olá, <strong>Usuário!</strong></div>
+  <button class="hamburger" id="hamburger" aria-label="Abrir menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <nav>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#">Início</a></li>
+      <li><a href="#">Sobre</a></li>
+      <li><a href="#">Configurações</a></li>
+    </ul>
+  </nav>
+</header>
   <main class="chat-container">
     <div class="chat-window" id="chatWindow">
       <!--Aqui será o chat interativo-->

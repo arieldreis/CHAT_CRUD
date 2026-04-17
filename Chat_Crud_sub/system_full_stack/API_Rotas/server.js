@@ -43,6 +43,41 @@ app.post('/createAccountUser', async(req, res) => {
         });
     }
 });
+// verificação de conta existente
+app.post('/validation', (req, res) => {
+
+    const email = req.body.email
+    const senha = req.body.senha;
+
+    try{
+        // Buscando os dados do banco de dados usando o select com a clausula where.
+        const [Emailverificacao] = ("SELECT email, senha FROM account_client WHERE email = ?",
+            [email]
+        );
+        const [senhaVerificacao] = ("",
+            [senha]
+        )
+
+        // Condição para saber se o usuário existe.
+        if(email === "" && senha === ""){
+            return res.redirect('/chat');
+        } else if(email != "" || senha != "") {
+            res.status(401).send({
+                mensagem: "Email ou senhas estão incorretos."
+            });
+        } else {
+            res.status(401).send({
+                mensagem: "Usuário não autorizado."
+            });
+        }
+    }catch(err){
+        res.status(500).send({
+            mensagem: "Erro ao fazer a verificação de login."
+        });
+    }
+});
+
+
 // Atualizar um elemento
 app.put('/updateuser/:id', async(req, res) => {
     const id  = req.params.id;
@@ -119,7 +154,6 @@ app.get("/accountuser", async (req, res) => {
         });
     };
 });
-
 // Rota para ás paginas htmls
 app.get('/DadosColetados', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'src', 'htmls', 'dados_salvos.html'));

@@ -1,3 +1,21 @@
+// Menu
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  navLinks.classList.toggle('open');
+});
+
+// Fecha o menu ao clicar em um link
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    navLinks.classList.remove('open');
+  });
+});
+
+// Server of WebSockets
 const form = document.querySelector('.chat-input-area');
 const input = document.querySelector('.chat-input-area input');
 const chat_window = document.querySelector('.chat-window');
