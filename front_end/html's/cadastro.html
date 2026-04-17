@@ -8,38 +8,29 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../styles/cadastro.css" />
-    <title>Cadastro Chat-Crud</title>
+    <title>Cadastro</title>
   </head>
   <body>
     <main class="container">
-      <form>
-
+      <form method="post" action="http://localhost:3000/createAccountUser">
         <h1>Cadastro Chat-Crud</h1>
-
-         <div class="inputbox">
-          <input placeholder="Digite seu Nome de Usuário" type="text" />
+        <div class="inputbox">
+          <input placeholder="Digite seu Nome de Usuário" type="text" name="nome_user"/>
           <i class="bx bxs-user"></i>
         </div>
-
         <div class="inputbox">
-          <input placeholder="Digite seu Email" type="email" />
+          <input placeholder="Digite seu Email" type="email" name="email"/>
           <i class="bx bxs-user"></i>
         </div>
-
         <div class="inputbox">
-          <input placeholder="Digite uma senha" type="password" />
+          <input placeholder="Digite uma senha" type="password" name="senha"/>
           <i class="bx bxs-lock-alt"></i>
         </div>
-
         <div class="remember-forgot">
-            <input type="checkbox"/>
-            <p>Lembrar senha </p>
+          <input type="checkbox" />
+          <p>Lembrar senha</p>
         </div>
-
         <button type="submit" class="login">Cadastrar</button>
-        
-        
-        
       </form>
     </main>
   </body>
