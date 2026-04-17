@@ -44,24 +44,28 @@ app.post('/createAccountUser', async(req, res) => {
     }
 });
 // verificação de conta existente
-app.post('/validation', (req, res) => {
+app.post('/validation', async(req, res) => {
 
     const email = req.body.email
     const senha = req.body.senha;
 
     try{
         // Buscando os dados do banco de dados usando o select com a clausula where.
-        const [Emailverificacao] = ("SELECT email, senha FROM account_client WHERE email = ?",
+        const [EmailverificacaoSQL] = await db.query("SELECT email FROM account_client WHERE email = ?",
             [email]
         );
-        const [senhaVerificacao] = ("",
-            [senha]
-        )
+        const [senhaVerificacaoSQL] = await db.query("SELECT senha FROM account_client WHERE email = ?",
+            [email]
+        );
+
+        // Validando os comando SQL
+        const usuarioEmail = EmailverificacaoSQL[0];
+        const usuarioSenha = senhaVerificacaoSQL[0];
 
         // Condição para saber se o usuário existe.
-        if(email === "" && senha === ""){
+        if(email === usuarioEmail.email && senha == usuarioSenha.senha){
             return res.redirect('/chat');
-        } else if(email != "" || senha != "") {
+        }else if(email != usuarioEmail.email || senha != usuarioSenha.senha){
             res.status(401).send({
                 mensagem: "Email ou senhas estão incorretos."
             });
@@ -70,7 +74,12 @@ app.post('/validation', (req, res) => {
                 mensagem: "Usuário não autorizado."
             });
         }
+
+        console.log(`Email:  ${email}, Banco: ${usuarioEmail.email}`);
+        console.log(`Senha: ${senha}, Banco: ${usuarioSenha.senha}`);
+
     }catch(err){
+        console.log("Erro: " + err);
         res.status(500).send({
             mensagem: "Erro ao fazer a verificação de login."
         });

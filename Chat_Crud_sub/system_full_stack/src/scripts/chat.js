@@ -26,7 +26,7 @@ const g = Math.floor(Math.random() * 256);
 const b = Math.floor(Math.random() * 256);
 
 
-const ws = new WebSocket("ws://localhost:3030");
+const ws = new WebSocket("ws://localhost:3001");
 ws.onopen = () => {
     console.log("Servidor conectado na web.")
 }
@@ -46,6 +46,8 @@ ws.onmessage = (event) => {
     paragrafo.innerHTML = data.text;
     span.innerHTML = `${hour}:${minute}`;
     div.style.backgroundColor = `rgb(${data.color.r}, ${data.color.g}, ${data.color.b})`;
+    div.style.borderRadius = "5px";
+    div.style.padding = "10px";
 
     // Adicionando uma classe as tags usando js.
     div.classList.add('message');
