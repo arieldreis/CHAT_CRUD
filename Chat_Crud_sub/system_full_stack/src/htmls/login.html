@@ -8,18 +8,19 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../styles/login.css" />
+    <script src="../scripts/login.js" defer></script>
     <title>Login</title>
   </head>
   <body>
     <main class="container">
-      <form method="get" action="">
+      <form method="get" action="http://localhost:3000/accountuser">
         <h1>Login Chat-Crud</h1>
         <div class="inputbox">
-          <input placeholder="Usuário" type="email" />
+          <input placeholder="Email" type="email" name="nome_user" id="nome_userId"/>
           <i class="bx bxs-user"></i>
         </div>
         <div class="inputbox">
-          <input placeholder="Senha" type="password" />
+          <input placeholder="Senha" type="password" name="senha" id="senhaId"/>
           <i class="bx bxs-lock-alt"></i>
         </div>
         <div class="remember-forgot">

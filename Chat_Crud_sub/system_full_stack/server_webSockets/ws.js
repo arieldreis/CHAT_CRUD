@@ -5,7 +5,7 @@ import express from 'express';
 const app = express();
 const server = createServer(app);
 const wss = new ws({server});
-const PORT = 3030;
+const PORT = 3000;
 
 wss.on('connection', (ws) => {
     console.log("Servidor conectado");

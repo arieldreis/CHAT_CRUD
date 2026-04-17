@@ -1,121 +1,19 @@
 import express from 'express';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import cors from 'cors';
 import { db_connect as db } from './db.js';
 
 const app = express();
 const PORT = 3000;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename)
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(express.static(path.join(__dirname, '..', 'src')));
+app.use(cors());
 
-const pgDadosColetados = (`
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sucesso | Chat-Crud</title>
-    <style>
-        * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-        height: 100vh;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        /* Fundo vibrante combinando com a sua imagem */
-        background: url(../img/fundo.jpg)
-            no-repeat center center fixed;
-        background-size: cover;
-        }
-
-        .glass-card {
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        padding: 50px 40px;
-        width: 400px;
-        text-align: center;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        color: white;
-        animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        }
-
-        .success-icon {
-        font-size: 60px;
-        margin-bottom: 20px;
-        display: inline-block;
-        background: rgba(255, 255, 255, 0.2);
-        width: 100px;
-        height: 100px;
-        line-height: 100px;
-        border-radius: 50%;
-        border: 2px solid white;
-        }
-
-        h2 {
-        font-size: 24px;
-        margin-bottom: 15px;
-        font-weight: 600;
-        }
-
-        p {
-        font-size: 16px;
-        opacity: 0.9;
-        margin-bottom: 30px;
-        line-height: 1.5;
-        }
-
-        .btn-finish {
-        display: inline-block;
-        width: 100%;
-        padding: 15px;
-        border: none;
-        border-radius: 30px;
-        background-color: white;
-        color: #333;
-        font-weight: bold;
-        font-size: 16px;
-        text-decoration: none;
-        transition: 0.3s ease;
-        }
-
-        .btn-finish:hover {
-        background-color: #f0f0f0;
-        transform: scale(1.05);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-    </style>
-</head>
-<body>
-
-    <div class="glass-card">
-        <div class="success-icon">✓</div>
-        <h2>Tudo pronto!</h2>
-        <p>Sua operação foi realizada com sucesso. Seus dados já foram atualizados em nosso sistema.</p>
-        <a href="login.html" class="btn-finish">Ir para o Início</a>
-    </div>
-
-</body>
-</html>
-    `);
 
 // Criar um novo elemento
 app.post('/createAccountUser', async(req, res) => {
@@ -136,10 +34,8 @@ app.post('/createAccountUser', async(req, res) => {
             [nome_user, email, senha]
         );
 
-        // return res.status(201).json({ 
-        //     mensagem: "Conta criada com sucesso!"
-        // });
-        return res.redirect("/sucesso");
+        return res.redirect("/DadosColetados");
+
     } catch(error) {
         console.log("Erro: " + error);
         res.status(500).json({
@@ -225,8 +121,8 @@ app.get("/accountuser", async (req, res) => {
 });
 
 // Direcionamento para a página de dados salvos.
-app.get('/sucesso', (req, res) => {
-    res.send(pgDadosColetados);
+app.get('/DadosColetados', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'src', 'htmls', 'dados_salvos.html'));
 });
 
 app.use((req, res) => {
