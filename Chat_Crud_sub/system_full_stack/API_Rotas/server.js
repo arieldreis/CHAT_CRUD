@@ -90,18 +90,18 @@ app.post('/validation', async(req, res) => {
 // Atualizar um elemento
 app.put('/updateuser/:id', async(req, res) => {
     const id  = req.params.id;
+    const email = req.body.email;
+    const senha = req.body.senha;
+
     if(!id){
         return res.status(404).send({
             mensagem: "Usuário não encontrado."
         });
     } 
-    try{
-        const nome_user = req.body.nome_user;
-        const email = req.body.email;
-        const senha = req.body.senha; 
+    try{ 
         const [updataData] = await db.query(
-            "UPDATE account_client SET nome_user = ?, email = ?, senha = ? WHERE id = ?",
-            [nome_user, email, senha, Number(id)]
+            "UPDATE account_client SET email = ?, senha = ? WHERE id = ?",
+            [email, senha, Number(id)]
         );
 
         return res.status(200).send({
@@ -178,6 +178,9 @@ app.get('/chat', (req, res) => {
 });
 app.get('/alterarDados', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'src', 'htmls', 'alterar_cadastro.html'));
+});
+app.get('/excluirDados', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'src', 'htmls', 'excluir_conta.html'));
 });
 
 // Caso rota solicitada não seja encontrada.

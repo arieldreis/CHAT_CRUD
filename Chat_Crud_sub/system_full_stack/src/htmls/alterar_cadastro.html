@@ -9,17 +9,14 @@
 <body>
     <div class="glass-card">
         <h2>Alterar Senha</h2>
-        <form>
+        <form method="post" action="/updateuser/:id">
+            <input type="hidden" name="_method" value="PUT">
             <div class="input-group">
-                <input type="password" placeholder="Senha Atual" required>
+                <input type="email" name="email" id="emailId" placeholder="Digite seu email">
                 <span>🔒</span>
             </div>
             <div class="input-group">
-                <input type="password" placeholder="Nova Senha" required>
-                <span>🔒</span>
-            </div>
-            <div class="input-group">
-                <input type="password" placeholder="Confirmar Nova Senha" required>
+                <input type="password" placeholder="Digite sua nova senha" required>
                 <span>🔒</span>
             </div>
             <button type="submit" class="btn-submit">Atualizar Senha</button>
