@@ -300,7 +300,7 @@
   background: #e74c3c;
   color: #ffffff;
   transition: all 0.2s ease;
-  opacity: 0.45;
+  opacity: 1;
   pointer-events: none;
 }
 

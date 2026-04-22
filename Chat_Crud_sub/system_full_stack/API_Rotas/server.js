@@ -14,7 +14,6 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, '..', 'src')));
 app.use(cors());
 
-
 // Criar um novo elemento
 app.post('/createAccountUser', async(req, res) => {
 
@@ -88,10 +87,13 @@ app.post('/validation', async(req, res) => {
 
 
 // Atualizar um elemento
-app.put('/updateuser/:id', async(req, res) => {
+app.put(`/updateuser/:id`, async(req, res) => {
     const id  = req.params.id;
+    const user = req.body.user;
     const email = req.body.email;
     const senha = req.body.senha;
+
+    console.log("Body: ", req.body);
 
     if(!id){
         return res.status(404).send({
@@ -100,13 +102,11 @@ app.put('/updateuser/:id', async(req, res) => {
     } 
     try{ 
         const [updataData] = await db.query(
-            "UPDATE account_client SET email = ?, senha = ? WHERE id = ?",
-            [email, senha, Number(id)]
+            "UPDATE account_client SET nome_user = ?, email = ?, senha = ? WHERE id = ?",
+            [user, email, senha, Number(id)]
         );
 
-        return res.status(200).send({
-            mensagem: "Alteração feita com sucesso."
-        });
+        return res.redirect('/DadosColetados');
 
     } catch(error) {
         console.log("Erro: " + error)
@@ -114,11 +114,13 @@ app.put('/updateuser/:id', async(req, res) => {
             error: "Erro ao fazer a alteração do recurso."
         });
     }
+
 });
 
 // Deleta um elemento
 app.delete('/deleteuser/:id', async(req, res) => {
     const id  = req.params.id;
+    const senha = req.body.senha;
     if(!id){
         res.status(404).send({
             mensagem: "Usuário não encontrado."
@@ -126,7 +128,7 @@ app.delete('/deleteuser/:id', async(req, res) => {
     }
     try{
         const [updataData] = await db.query(
-            "DELETE FROM account_client where id = ?",
+            "DELETE FROM account_client WHERE id = ? AND senha = ?",
             [Number(id)]
         );
 
@@ -182,15 +184,14 @@ app.get('/alterarDados', (req, res) => {
 app.get('/excluirDados', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'src', 'htmls', 'excluir_conta.html'));
 });
+app.get('/NotFound404', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'src', 'htmls', 'notFound.html'));
+});
 
 // Caso rota solicitada não seja encontrada.
 app.use((req, res) => {
     console.log(`Mensagens: ${new Date().toISOString}, ${req.url}, ${req.method}`);
-    res.status(404).send({
-        status: 404,
-        error: "Rota não encontrada", 
-        url: req.originalUrl
-    });
+    return res.status(404).redirect("/NotFound404");
 });
 
 app.listen(PORT, () => {

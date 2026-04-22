@@ -5,21 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alterar Senha | Chat-Crud</title>
     <link rel="stylesheet" href="../styles/alterar_cadastro.css">
+    <script src="../scripts/alterarDados.js" defer></script>
 </head>
 <body>
     <div class="glass-card">
         <h2>Alterar Senha</h2>
-        <form method="post" action="/updateuser/:id">
-            <input type="hidden" name="_method" value="PUT">
+        <form method="post" action="/updateuser/id">
+            <input type="hidden" name="_method" value="put" />
+            <div class="input-group">
+                <input type="text" name="id" id="idInput" placeholder="Digite seu id">
+                <span>🔒</span>
+            </div>
+            <div class="input-group">
+                <input type="text" name="user" id="idUser" placeholder="Digite seu usuário">
+                <span>🔒</span>
+            </div>
             <div class="input-group">
                 <input type="email" name="email" id="emailId" placeholder="Digite seu email">
                 <span>🔒</span>
             </div>
             <div class="input-group">
-                <input type="password" placeholder="Digite sua nova senha" required>
-                <span>🔒</span>
+                <input type="password" placeholder="Digite sua nova senha" name="senha" id="senhaId" required>
+                <span>🔒</span>            
             </div>
-            <button type="submit" class="btn-submit">Atualizar Senha</button>
+            <button type="submit" class="btn-submit" id="btnSubmit">Atualizar Senha</button>
         </form>
     </div>
 </body>

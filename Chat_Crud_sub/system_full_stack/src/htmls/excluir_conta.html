@@ -6,9 +6,9 @@
   <title>Excluir Conta</title>
   <link rel="stylesheet" href="../styles/chat.css">
   <link rel="stylesheet" href="../styles/delete_account.css">
+  <script src="../scripts/deleteAccount.js" defer></script>
 </head>
 <body>
-
   <header class="navbar">
     <div class="user-greeting">Olá, <strong>Usuário!</strong></div>
     <button class="hamburger" id="hamburger" aria-label="Abrir menu">
@@ -22,94 +22,85 @@
       </ul>
     </nav>
   </header>
-
   <div class="page-wrapper">
-    <div class="card" id="mainCard">
-
-      <div class="step-indicator">
-        <div class="step done" id="s1"><div class="step-num">✓</div> Identificação</div>
-        <div class="step-sep"></div>
-        <div class="step current" id="s2"><div class="step-num">2</div> Confirmação</div>
-        <div class="step-sep"></div>
-        <div class="step" id="s3"><div class="step-num">3</div> Conclusão</div>
+    <form action="//deleteuser/id" method="post">
+      <div class="card" id="mainCard">
+        <div class="step-indicator">
+          <div class="step done" id="s1"><div class="step-num">✓</div> Identificação</div>
+          <div class="step-sep"></div>
+          <div class="step current" id="s2"><div class="step-num">2</div> Confirmação</div>
+          <div class="step-sep"></div>
+          <div class="step" id="s3"><div class="step-num">3</div> Conclusão</div>
+        </div>
+        <div class="card-header">
+          <div class="danger-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <div class="card-header-text">
+            <h1>Excluir conta</h1>
+            <p>Esta ação é permanente e não pode ser desfeita.</p>
+          </div>
+        </div>
+        <div class="card-body" id="formBody">
+          <div class="warning-box">
+            <p><strong>Atenção:</strong> ao excluir sua conta, todos os seus dados serão removidos permanentemente dos nossos servidores.</p>
+          </div>
+          <div class="consequences">
+            <p>O que será perdido:</p>
+            <div class="consequence-item"><div class="dot"></div><span>Todo o histórico de conversas e mensagens</span></div>
+            <div class="consequence-item"><div class="dot"></div><span>Preferências e configurações personalizadas</span></div>
+            <div class="consequence-item"><div class="dot"></div><span>Dados de perfil e informações da conta</span></div>
+            <div class="consequence-item"><div class="dot"></div><span>Acesso a integrações e serviços conectados</span></div>
+          </div>
+          <div class="form-group">
+            <label for="motivo">Motivo da exclusão <span>*</span></label>
+            <select id="motivo">
+              <option>Selecione um motivo...</option>
+              <option>Não uso mais o serviço</option>
+              <option>Problemas de privacidade</option>
+              <option>Encontrei uma alternativa melhor</option>
+              <option>Muitos problemas técnicos</option>
+              <option>Outro motivo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="comentario">Comentário adicional</label>
+            <textarea id="comentario" placeholder="Conte-nos como podemos melhorar (opcional)..."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="idInput">ID:</label>
+            <input type="text" name="id" id="idInput" placeholder="Digite o seu ID atual">
+          </div>
+          <div class="form-group">
+            <label for="senhaId">Confirme sua senha <span>*</span></label>
+            <input type="password" name="senha" id="senhaId" placeholder="Digite sua senha atual" />
+          </div>
+          <div class="confirm-check">
+            <input type="checkbox" id="aceite" />
+            <label for="aceite">Entendo que esta ação é <strong>irreversível</strong> e que todos os meus dados serão excluídos permanentemente.</label>
+          </div>
+        </div>
+        <div class="success-state" id="successState">
+          <div class="check-circle">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="15" y1="9" x2="9" y2="15"/>
+              <line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+          </div>
+          <h2>Conta excluída</h2>
+          <p>Sua conta foi removida com sucesso. Sentimos muito vê-lo partir. Se mudar de ideia, você pode criar uma nova conta a qualquer momento.</p>
+        </div>
+        <div class="card-footer" id="cardFooter">
+          <button class="btn-cancel" id="cancelarId">Cancelar</button>
+          <button class="btn-delete" id="btnDelete">Excluir minha conta</button>
+        </div>
       </div>
-
-      <div class="card-header">
-        <div class="danger-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
-            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
-            <line x1="12" y1="9" x2="12" y2="13"/>
-            <line x1="12" y1="17" x2="12.01" y2="17"/>
-          </svg>
-        </div>
-        <div class="card-header-text">
-          <h1>Excluir conta</h1>
-          <p>Esta ação é permanente e não pode ser desfeita.</p>
-        </div>
-      </div>
-
-      <div class="card-body" id="formBody">
-        <div class="warning-box">
-          <p><strong>Atenção:</strong> ao excluir sua conta, todos os seus dados serão removidos permanentemente dos nossos servidores.</p>
-        </div>
-
-        <div class="consequences">
-          <p>O que será perdido:</p>
-          <div class="consequence-item"><div class="dot"></div><span>Todo o histórico de conversas e mensagens</span></div>
-          <div class="consequence-item"><div class="dot"></div><span>Preferências e configurações personalizadas</span></div>
-          <div class="consequence-item"><div class="dot"></div><span>Dados de perfil e informações da conta</span></div>
-          <div class="consequence-item"><div class="dot"></div><span>Acesso a integrações e serviços conectados</span></div>
-        </div>
-
-        <div class="form-group">
-          <label>Motivo da exclusão <span>*</span></label>
-          <select id="motivo">
-            <option value="">Selecione um motivo...</option>
-            <option>Não uso mais o serviço</option>
-            <option>Problemas de privacidade</option>
-            <option>Encontrei uma alternativa melhor</option>
-            <option>Muitos problemas técnicos</option>
-            <option>Outro motivo</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Comentário adicional</label>
-          <textarea id="comentario" placeholder="Conte-nos como podemos melhorar (opcional)..."></textarea>
-        </div>
-
-        <div class="form-group">
-          <label>Confirme sua senha <span>*</span></label>
-          <input type="password" id="senha" placeholder="Digite sua senha atual" />
-        </div>
-
-        <div class="confirm-check" onclick="toggleCheck()">
-          <input type="checkbox" id="aceite" />
-          <label for="aceite">Entendo que esta ação é <strong>irreversível</strong> e que todos os meus dados serão excluídos permanentemente.</label>
-        </div>
-      </div>
-
-      <div class="success-state" id="successState">
-        <div class="check-circle">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="15" y1="9" x2="9" y2="15"/>
-            <line x1="9" y1="9" x2="15" y2="15"/>
-          </svg>
-        </div>
-        <h2>Conta excluída</h2>
-        <p>Sua conta foi removida com sucesso. Sentimos muito vê-lo partir. Se mudar de ideia, você pode criar uma nova conta a qualquer momento.</p>
-      </div>
-
-      <div class="card-footer" id="cardFooter">
-        <button class="btn-cancel" onclick="cancelar()">Cancelar</button>
-        <button class="btn-delete" id="btnDelete" onclick="confirmarExclusao()">Excluir minha conta</button>
-      </div>
-
-    </div>
+    </form>
   </div>
-
-  <script src="../scripts/chat.js" defer></script>
-  <script src="../scripts/delete-account.js" defer></script>
 </body>
 </html>
