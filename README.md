@@ -56,7 +56,7 @@ O objetivo deste projeto é criar uma plataforma de mensagens instantâneas onde
     ```
 
 5.  **Acesse a aplicação:**
-    Abra o navegador em `http://localhost:3000`
+    Abra o navegador em `http://localhost:3000/login`
 
 ---
 
